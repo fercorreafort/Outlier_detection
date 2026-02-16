@@ -43,18 +43,4 @@ sequenceDiagram
     UI->>User: Display results
 ```
 
-## Timeline
-
-```mermaid
-gantt
-    title Project Timeline
-    dateFormat YYYY-MM-DD
-    section Week 1
-    Setup Docker           :done, 2024-01-01, 2d
-    Design Schema          :done, 2024-01-03, 2d
-    section Week 2
-    Build ETL              :active, 2024-01-05, 3d
-    Test Pipeline          :2024-01-08, 2d
-```
-
 -
