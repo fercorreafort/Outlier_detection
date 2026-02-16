@@ -16,7 +16,10 @@ def load_streaming_datasets() -> tuple[Dict[str, pd.DataFrame], Dict[str, pd.Dat
     datasets = {
         'hbo': "victorsoeiro/hbo-max-tv-shows-and-movies",
         'amazon': "victorsoeiro/amazon-prime-tv-shows-and-movies",
-        'netflix': 'victorsoeiro/netflix-tv-shows-and-movies'
+        'netflix': 'victorsoeiro/netflix-tv-shows-and-movies',
+        'disney': 'victorsoeiro/disney-tv-shows-and-movies',
+        'hulu': 'victorsoeiro/hulu-tv-shows-and-movies',
+        'paramount': 'victorsoeiro/paramount-tv-shows-and-movies'
     }
     
     for platform, handle in datasets.items():
@@ -188,10 +191,9 @@ def analyze_title_overlap(title_sets: Dict[str, Set[str]]) -> None:
             pct_of_platform1 = (overlap_count / len(set1) * 100) if set1 else 0
             pct_of_platform2 = (overlap_count / len(set2) * 100) if set2 else 0
             
-            print(f"\n  {platform1.upper()} ↔ {platform2.upper()}:")
-            print(f"    Shared titles: {overlap_count:,}")
-            print(f"    • {pct_of_platform1:.1f}% of {platform1.upper()}'s library")
-            print(f"    • {pct_of_platform2:.1f}% of {platform2.upper()}'s library")
+            p1_abbr = platform1[:3].upper()
+            p2_abbr = platform2[:3].upper()
+            print(f"  {p1_abbr} ↔ {p2_abbr}: {overlap_count:,} titles ({pct_of_platform1:.1f}% | {pct_of_platform2:.1f}%)")
     
     # Three-way comparison (if applicable)
     if len(platforms) == 3:
