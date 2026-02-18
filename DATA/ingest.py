@@ -279,6 +279,35 @@ def analyze_credits(credits: Dict[str, pd.DataFrame]) -> None:
             print(f"\n⭐ {platform.upper()}: Name column not found")
 
 
+def combine_datasets(titles: Dict[str, pd.DataFrame], credits: Dict[str, pd.DataFrame]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Combine titles and credits DataFrames across all platforms into two unified DataFrames.
+
+    Args:
+        titles: Dictionary mapping platform names to title DataFrames
+        credits: Dictionary mapping platform names to credit DataFrames
+
+    Returns:
+        tuple: (all_titles, all_credits) combined DataFrames with a 'platform' column
+    """
+    title_frames = []
+    for platform, df in titles.items():
+        df = df.copy()
+        df['platform'] = platform
+        title_frames.append(df)
+
+    credit_frames = []
+    for platform, df in credits.items():
+        df = df.copy()
+        df['platform'] = platform
+        credit_frames.append(df)
+
+    all_titles = pd.concat(title_frames, ignore_index=True) if title_frames else pd.DataFrame()
+    all_credits = pd.concat(credit_frames, ignore_index=True) if credit_frames else pd.DataFrame()
+
+    return all_titles, all_credits
+
+
 if __name__ == "__main__":
     # Load datasets
     titles, credits = load_streaming_datasets()
@@ -299,6 +328,14 @@ if __name__ == "__main__":
     # 5. Credits analysis
     analyze_credits(credits)
     
+    #Save combined datasets for future use
+    all_titles, all_credits = combine_datasets(titles, credits)
+    all_titles.to_csv("combined_titles.csv", index=False)
+    all_credits.to_csv("combined_credits.csv", index=False)
+    ## 
+    print("\nCombined datasets saved as 'combined_titles.csv' and 'combined_credits.csv'")
+
+
     print("\n" + "="*70)
     print("Analysis Complete!".center(70))
     print("="*70 + "\n")
